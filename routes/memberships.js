@@ -2,9 +2,7 @@ const {Router} = require('express')
 const Membership = require('../models/Membership.js')
 const router = Router()
 
-router.get('/', (req, res, next) => {
-    return res.status(200).send('memberships here')
-})
+
 
 router.post('/', async (req, res, next) => {
     try {
@@ -22,4 +20,8 @@ router.post('/', async (req, res, next) => {
     }
 })
 
+router.get('/', (req, res, next) => {
+    console.log(req)
+    return res.status(200).json(req.cookies)
+})
 module.exports = router

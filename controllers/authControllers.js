@@ -9,6 +9,14 @@ const handleErrors = (err) => {
             errors.email = 'email already in use'
             return errors
         }
+
+    if (err.message === 'incorrect email') {
+        errors.email = 'This email does not exist'; 
+    }
+
+    if (err.message === 'incorrect password') {
+        errors.password = 'The password is incorrect' 
+    }
     // validation errors
     if (err.message.includes('user validation failed')) {
         Object.values(err.errors).forEach(({properties}) => {
@@ -27,20 +35,9 @@ const createToken = (id) => {
 module.exports.register = async (req, res) => {
     const {email, password, confirmPassword} = req.body
 
-
-    // Check if email already in use
-    // const existingUser = await User.findOne({email: email}).exec()
-    // if (existingUser) {
-    //     return res.status(500).json({msg: `Email "${email}" is already in use`})
-    // }
-
     if (password !== confirmPassword) {
-        return res.status(400).json({msg: 'Passwords do not match'})
+        return res.status(400).json({errors: {password: 'passwords do not match'}})
     }
-
-    // Check password and confirm are similar
-    if (password === confirmPassword) {
-        // hash password
 
         // Create user
         try {
@@ -51,19 +48,26 @@ module.exports.register = async (req, res) => {
             res.status(201).json(user)
         } catch (error) {
            const errors = handleErrors(error)
-            return res.status(400).json(errors)    
+           res.status(400).json({errors})    
         }
     
     
     // Create User
 
     // redirect to login
-
-}
 }
 
-module.exports.login = (req, res) => {
-    res.json({msg: 'TODO: login implementation'})
+module.exports.login = async (req, res) => {
+    const {password, email} = req.body
+    try {
+       const user = await User.login(email, password) 
+       const token = createToken(user._id)
+        res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000})
+        res.status(200).json({user: user._id})
+    } catch (error) {
+        const errors = handleErrors(error)
+        res.status(400).json({errors}) 
+    }
 }
 
 module.exports.logout = (req, res) => {

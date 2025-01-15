@@ -3,18 +3,23 @@ const memberships = require('./routes/memberships.js')
 const authRoutes = require('./routes/authRoutes.js')
 const app = express()
 const connectDB = require('./db.js')
+const cors = require('cors');
 const cookieParser = require('cookie-parser')
+const { requireAuth } = require('./middleware/authMiddleware.js')
 
-
+app.use(cors({ 
+    origin: process.env.CLIENT_URL ,
+    // Important for CORS requests in order to allow cookies to be sent
+    credentials: true, 
+}));
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 
-app.get('/', (req, res) => {
-    return res.send('Hello world')
+app.use('/membership', requireAuth, memberships)
+app.use('/protected', requireAuth, (req, res) => {
+    res.send('This route is good to go')
 })
-
-app.use('/membership', memberships)
 app.use(authRoutes)
 
 

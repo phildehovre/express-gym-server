@@ -30,6 +30,18 @@ userSchema.pre('save', async function(next) {
     next();
 })
 
+userSchema.statics.login = async function(email, password) {
+    const user = await this.findOne({email})
+    if (user) {
+       const auth = await bcrypt.compare(password, user.password)
+       if (auth) {
+        return user;
+       }
+       throw Error('incorrect password')
+    }
+    throw Error('incorrect email')
+}
+
 // Whatever we call this model, it needs to be the singular
 // of whatever DB collection it will be written to
 // Mongoose will pluralise it and look for users!
