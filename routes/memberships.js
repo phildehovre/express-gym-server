@@ -6,17 +6,17 @@ const router = Router()
 
 router.post('/', async (req, res, next) => {
     try {
-        await Membership.create({
-            type: req.body.type,
-            startDate: req.body.startDate,
-            active: req.body.active,
-            owner: req.body.owner,
-            endDate: req.body.endDate,
+       await Membership.create({
+           type: req.body.type,
+           startDate: req.body.startDate,
+           active: req.body.active,
+           owner: req.body.owner,
+           endDate: req.body.endDate,
         })
 
-        return res.status(201).json('success')
+        res.status(201).json('success')
     } catch (err) {
-        return res.status(500).json({msg: `There was an error creating a new membership: ${err}`})
+        res.status(500).json({msg: `There was an error creating a new membership: ${err}`})
     }
 })
 

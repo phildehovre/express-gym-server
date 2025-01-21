@@ -8,7 +8,7 @@ const cookieParser = require('cookie-parser')
 const { requireAuth } = require('./middleware/authMiddleware.js')
 
 app.use(cors({ 
-    origin: process.env.CLIENT_URL ,
+    origin: process.env.CLIENT_URL,
     // Important for CORS requests in order to allow cookies to be sent
     credentials: true, 
 }));
@@ -21,7 +21,6 @@ app.use('/protected', requireAuth, (req, res) => {
     res.send('This route is good to go')
 })
 app.use(authRoutes)
-
 
 
 connectDB().then(() => {

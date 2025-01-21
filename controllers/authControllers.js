@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken')
 
 
 const handleErrors = (err) => {
-    console.log(err.message, err.code)
     let errors = {email: '', password: ''}
         if (err.code === 11000) {
             errors.email = 'email already in use'
@@ -50,11 +49,6 @@ module.exports.register = async (req, res) => {
            const errors = handleErrors(error)
            res.status(400).json({errors})    
         }
-    
-    
-    // Create User
-
-    // redirect to login
 }
 
 module.exports.login = async (req, res) => {
