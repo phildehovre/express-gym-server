@@ -21,7 +21,6 @@ router.post('/', async (req, res, next) => {
 })
 
 router.get('/', (req, res, next) => {
-    console.log(req)
     return res.status(200).json(req.cookies)
 })
 module.exports = router
