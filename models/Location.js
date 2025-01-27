@@ -25,6 +25,22 @@ const locationSchema = new Schema({
     coordinates: {
         type: [Number],
         required: true,
+    },
+    createdAt: {
+        type: Date,
+        default: () => Date.now()
+    },
+    updatedAt: {
+        type: Date,
+        default: () => Date.now()
+    },
+    phone: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
     }
 })
 

@@ -1,6 +1,7 @@
 const express = require('express')
-const memberships = require('./routes/memberships.js')
+const membershipRoutes = require('./routes/membershipRoutes.js')
 const authRoutes = require('./routes/authRoutes.js')
+const locationRoutes = require('./routes/locationRoutes.js') 
 const app = express()
 const connectDB = require('./db.js')
 const cors = require('cors');
@@ -16,7 +17,8 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 
-app.use('/membership', requireAuth, memberships)
+app.use('/membership', requireAuth, membershipRoutes)
+app.use('/location', locationRoutes)
 app.use('/protected', requireAuth, (req, res) => {
     res.send('This route is good to go')
 })

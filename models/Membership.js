@@ -15,8 +15,8 @@ const membershipSchema = new Schema({
     required: true
   },
   owner: {
-    type: String,
-    required: true
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   },
   endDate: {
     type: Date,
