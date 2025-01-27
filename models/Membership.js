@@ -30,6 +30,10 @@ const membershipSchema = new Schema({
     type: Date,
     default: () => Date.now()
   },
+  location: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Location'
+  }
 });
 
 const Membership = model('Membership', membershipSchema);
