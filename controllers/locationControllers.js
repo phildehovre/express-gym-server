@@ -40,3 +40,20 @@ module.exports.update = async (req, res) => {
        console.log(error) 
     }
 }
+
+module.exports.getOne = async (req, res) => {
+    if (req.params.id.length !== 24) {
+        res.status(400).json({msg: 'invalid ID'})
+    }
+    try {
+        const location = await Location.findOne({_id: req.params.id})
+        if (location) {
+            res.status(200).json(location)
+        } else {
+            res.status(404).json({msg: 'No club found'})
+        }
+
+    } catch (error) {
+        console.error(error)
+    }
+}

@@ -18,7 +18,7 @@ app.use(express.urlencoded({extended: false}))
 app.use(cookieParser())
 
 app.use('/membership', requireAuth, membershipRoutes)
-app.use('/location', locationRoutes)
+app.use('/location', requireAuth, locationRoutes)
 app.use('/protected', requireAuth, (req, res) => {
     res.send('This route is good to go')
 })
