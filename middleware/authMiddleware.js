@@ -8,7 +8,11 @@ const requireAuth = (req, res, next) => {
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
             if (err) {
-                const errors = {authentication: 'invalid token'}
+                if (err.name == 'TokenExpiredError') {
+                    const errors = {authentication: 'token is expired'}
+                    res.status(403).json({errors})
+                }
+                const errors = {authentication: 'invalid token: '+ err}
                 res.status(403).json({errors})
             } else {
                 next()

@@ -25,6 +25,7 @@ const locationSchema = new Schema({
     coordinates: {
         type: [Number],
         required: true,
+        index: '2dsphere'
     },
     createdAt: {
         type: Date,

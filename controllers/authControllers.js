@@ -25,10 +25,12 @@ const handleErrors = (err) => {
     return errors
 }
 
-//3days expiration time in seconds
-const maxAge = 3 * 24 * 60 * 60
+//7 days expiration time in seconds
+const maxAge = 7 * 24 * 60 * 60
 const createToken = (id) => {
-    return jwt.sign({id}, process.env.JWT_SECRET, {expiresIn: maxAge}) 
+    return jwt.sign({id}, process.env.JWT_SECRET, 
+        {expiresIn: maxAge}
+    ) 
 }
 
 module.exports.register = async (req, res) => {
