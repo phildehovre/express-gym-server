@@ -25,7 +25,7 @@ module.exports.getAll = async (req, res) => {
         // TODO: deal with accents
         // TODO: deal with languages
         const locations = await Location.find( 
-            { $or: [{ city: term}, {country: term}]} )
+            { $or: [{ city: term}, {country: term}]} ).populate('extrasIds')
         return res.status(200).json(locations)
     }
     try {
@@ -60,11 +60,11 @@ module.exports.getNear = async (req,res) => {
                     }
                 });
                 if (locations.length == 0) {
-                    res.status(404).json({error: `no location found within a ${range}km range`})
+                    return res.status(404).json({error: `no location found within a ${range / 1000}km range`})
                 }
-                res.status(200).json(locations)
+                return res.status(200).json(locations)
         } catch (err) {
-            res.status(404).json({error: 'No location found: '+ err})
+            return res.status(500).json({error: 'No location found: '+ err})
         }
     }
 }

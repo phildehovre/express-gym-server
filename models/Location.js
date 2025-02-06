@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+require('./Extra')
+
 const {Schema, model} = mongoose;
 
 const locationSchema = new Schema({
@@ -23,14 +25,18 @@ const locationSchema = new Schema({
         required: true,
     },
     coordinates: {
-        type: [Number],
-        required: true,
-        index: '2dsphere'
-    },
+        type: {
+          lat: { type: Number, required: true },
+          lng: { type: Number, required: true }
+        },
+        required: true
+      },
+    extrasIds: [{ type: Schema.Types.ObjectId, ref: 'Extra' }],
     createdAt: {
         type: Date,
         default: () => Date.now()
     },
+    
     updatedAt: {
         type: Date,
         default: () => Date.now()
