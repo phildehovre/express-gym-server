@@ -24,13 +24,23 @@ const locationSchema = new Schema({
         type: String,
         required: true,
     },
-    coordinates: {
+    geolocation: {
         type: {
-          lat: { type: Number, required: true },
-          lng: { type: Number, required: true }
+            type: String,
+            enum: ['Point'], // Ensures the type is always 'Point'
+            required: true
         },
-        required: true
-      },
+        coordinates: {
+            type: [Number], // Array with [longitude, latitude]
+            required: true,
+            validate: {
+                validator: function (arr) {
+                    return arr.length === 2;
+                },
+                message: 'Coordinates must be an array of [longitude, latitude]'
+            }
+        }
+    },
     extrasIds: [{ type: Schema.Types.ObjectId, ref: 'Extra' }],
     createdAt: {
         type: Date,
@@ -50,6 +60,8 @@ const locationSchema = new Schema({
         required: true
     }
 })
+
+locationSchema.index({geolocation: "2dsphere"})
 
 const Location = model('Location', locationSchema);
 

@@ -47,7 +47,7 @@ module.exports.getNear = async (req,res) => {
     if (lat && lng) {
         try {
             const locations = await Location.find({
-                coordinates: {
+                geolocation: {
                     $near: {
                         $geometry: {
                             type: "Point" ,
