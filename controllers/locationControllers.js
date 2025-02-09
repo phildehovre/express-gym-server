@@ -40,6 +40,7 @@ module.exports.getNear = async (req,res) => {
     const lat = parseFloat(req.query.lat)
     const lng = parseFloat(req.query.lng)
     const range = parseFloat(req.query.rng) * 1000
+    const params = req.params
 
     if (isNaN(lat) || isNaN(lng)) {
         return res.status(400).json({error: 'invalid or missing latitude/longitude'})
@@ -58,7 +59,7 @@ module.exports.getNear = async (req,res) => {
                         $minDistance: 0
                         }
                     }
-                });
+                }).populate('extrasIds');
                 if (locations.length == 0) {
                     return res.status(404).json({error: `no location found within a ${range / 1000}km range`})
                 }
