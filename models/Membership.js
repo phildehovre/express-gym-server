@@ -33,7 +33,8 @@ const membershipSchema = new Schema({
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location'
-  }
+  },
+  extrasIds: [{type: Schema.Types.ObjectId, ref: 'Extra'}]
 });
 
 const Membership = model('Membership', membershipSchema);
